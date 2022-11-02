@@ -1,8 +1,8 @@
 # Good news
 Aplicativo consumindo api de [noticias](https://newsapi.org/)
 
-## Motivacao
-Aprender o uso do MVVM e tambem melhorar conceito de requisicoes com RxSwfit e RxCocoa
+## Motivação
+Aprender o uso do MVVM e também melhorar conceito de requisições com RxSwfit e RxCocoa
 
 ## Feature
 - Para construir uma view model extensiva, disponibilizei uma coleção de articles e apenas um  article
