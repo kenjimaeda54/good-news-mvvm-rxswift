@@ -10,7 +10,6 @@ import RxCocoa
 import RxSwift
 
 //view model comunica tanto com a view quanto com model
-
 //MARK: - Criando apenas um article
 struct ArticleViewModel {
 	
@@ -19,11 +18,10 @@ struct ArticleViewModel {
 	init(_ articles: Articles) {
 		self.articles = articles
 	}
+	
 }
 
-//criando um extension para pegar apenas o title e o description
-//articles e do inicializador acima
-extension ArticleViewModel {
+extension ArticleViewModel  {
 	
 	var title: Observable<String>  {
 		return Observable.just(articles.title)
@@ -36,30 +34,40 @@ extension ArticleViewModel {
 }
 
 //MARK: - Criando uma lista de articles
-
 //criando um uma lista de articles
-struct ArticleListViewModel   {
+
+struct ArticlesListViewModel {
+	
 	let articlesVM: [ArticleViewModel]
+	
 }
 
-extension ArticleListViewModel  {
-	
+extension ArticlesListViewModel {
+		
 	//compactMap remove os nill
 	//https://www.hackingwithswift.com/articles/205/whats-the-difference-between-map-flatmap-and-compactmap
+	
+	//criando um array de articlesVM a partir do init de articles
 	init(_ articles: [Articles]) {
 		self.articlesVM = articles.compactMap(ArticleViewModel.init)
 	}
 	
-	
 }
 
-//pegando so um article
-extension ArticleListViewModel  {
+//pegando so um articleVM
+extension ArticlesListViewModel  {
 	
-	//com a palavra static nao reconhece
-	func articleAt(_ index:Int) -> ArticleViewModel {
-		return  self.articlesVM[index]
+	func articleAt(_ index: Int) -> ArticleViewModel {
+		return articlesVM[index]
 	}
 	
 }
+
+
+
+
+
+
+
+
 
