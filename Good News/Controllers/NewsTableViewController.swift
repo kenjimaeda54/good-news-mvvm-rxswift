@@ -13,6 +13,7 @@ class NewsTableViewController: UITableViewController {
 	
 	//MARK: - Vars
 	let disposed = DisposeBag()
+	//oque retorna do json e um array
 	var articleVM: ArticlesListViewModel!
 	
 	override func viewDidLoad() {
@@ -29,44 +30,41 @@ class NewsTableViewController: UITableViewController {
 		let resource = Resource<ArticleResult>(url: url)
 		
 		URLRequest.load(resource).subscribe(onNext:{[self] response in
-			 
 			let articles = response.articles
 			articleVM = ArticlesListViewModel(articles)
 			
 			DispatchQueue.main.async {
 				self.tableView.reloadData()
 			}
-			 
+			
 		}).disposed(by: disposed)
 		
 	}
 	 
+  //MARK: - Table View Controller
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		 return 1
 	}
-	 
-	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return articleVM != nil  ? articleVM.articlesVM.count : 0
-	}
  
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return  articleVM != nil ? articleVM.articlesVM.count : 0
+	}
+	 
+	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cellGodNews", for: indexPath) as! NewsTableViewCell
 		
-		let article = articleVM.articleAt(indexPath.row)
-		 
-		article.title.asDriver(onErrorJustReturn: "")
-			.drive(
-				cell.labTitleNew.rx.text
-			).disposed(by: disposed)
+		let articles = articleVM.articleAt(indexPath.row)
 		
-		article.description.asDriver(onErrorJustReturn: "")
-			.drive(
-				cell.labDescriptionNew.rx.text
-			).disposed(by: disposed)
+		articles.title.asDriver(onErrorJustReturn: "").drive(
+			cell.labTitleNew.rx.text
+		).disposed(by: disposed)
 		
+		articles.description.asDriver(onErrorJustReturn: "").drive(
+			cell.labDescriptionNew.rx.text
+		).disposed(by: disposed)
+ 
 		return cell
-		
 	}
-	 
 	
 }
